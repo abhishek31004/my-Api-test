@@ -5,10 +5,6 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 /**
  * BaseTest provides common test setup and RequestSpecifications used across tests.
  */
@@ -19,21 +15,12 @@ public abstract class BaseTest {
 
     /**
      * Global setup executed before any tests run.
-     * - Loads `config.properties`
+     * - Sets base URI
      * - Builds authenticated and unauthenticated RequestSpecifications
      */
     @BeforeAll
     public static void setup() {
-        Properties props = new Properties();
-        try (InputStream is = BaseTest.class.getClassLoader().getResourceAsStream("config.properties")) {
-            if (is != null) {
-                props.load(is);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        baseUri = props.getProperty("base.uri", "https://gorest.co.in/public/v2");
+        baseUri = "https://gorest.co.in/public/v2";
 
         // support token from system property or environment variable
         String tokenFromProp = System.getProperty("api.token");
